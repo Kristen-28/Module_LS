@@ -1,5 +1,7 @@
 package com.example.sakshi.demoapp;
 
+import android.app.ActionBar;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -7,12 +9,16 @@ import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.CallbackManager;
@@ -42,10 +48,10 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mauthListener;
 
-    private LinearLayout loginlayout, signuplayout;
+    private LinearLayout ed_signups_layout,ed_logins_layout,signup_bottom_layout,login_bottom_layout, login_heading_layout, signup_heading_layout,signup_here_layout;
     private TextInputEditText ed_login_email, ed_login_password, ed_signup_email, ed_signup_password;
     private TextInputLayout til_login_email, til_login_password, til_signup_email, til_signup_password;
-    private Button btnSignin, btn_goto_signup, btn_signup, btn_goto_login;
+    private Button btnSignin, btn_signup, btn_goto_login;
 
     private SignInButton btn_google_signin;
     private LoginButton btn_fb_signin;
@@ -60,11 +66,22 @@ public class MainActivity extends AppCompatActivity {
     private Google_signin m_google_signin;
     private Facebook_signin m_fb_signin;
     private Email_signin m_email_signin;
+    private TextView btn_goto_signup;
+
+    private CardView m_card_view;
+
+    private int layout_detect=0;   //0 for login,1 for signup
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         setContentView(R.layout.activity_main);
+
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar(); //or getSupportActionBar();
+        actionBar.hide();
+
 
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
@@ -73,18 +90,27 @@ public class MainActivity extends AppCompatActivity {
             FacebookSdk.addLoggingBehavior(LoggingBehavior.INCLUDE_ACCESS_TOKENS);
         }
 
-        loginlayout = findViewById(R.id.login_layout);
-        signuplayout = findViewById(R.id.signup_layout);
+        login_heading_layout=findViewById(R.id.login_heading);
+        signup_heading_layout=findViewById(R.id.signup_heading);
+
+        login_bottom_layout=findViewById(R.id.login_bottom_referral_layout);
+        signup_bottom_layout=findViewById(R.id.signup_bottom_layout);
+
+        ed_logins_layout=findViewById(R.id.edittext_logins);
+        ed_signups_layout=findViewById(R.id.edittext_signups);
+
+        signup_here_layout=findViewById(R.id.signup_here_layout);
+
 
         til_login_email = findViewById(R.id.wrapperemail);
         til_login_password = findViewById(R.id.wrapperpassword);
         til_signup_email = findViewById(R.id.s_wrapperemail);
         til_signup_password = findViewById(R.id.s_wrapperpassword);
 
-        ed_login_email = findViewById(R.id.ed_email);
-        ed_login_password = findViewById(R.id.ed_password);
-        ed_signup_email = findViewById(R.id.signup_email);
-        ed_signup_password = findViewById(R.id.signup_pass);
+          ed_login_email = findViewById(R.id.ed_email);
+          ed_login_password = findViewById(R.id.ed_password);
+          ed_signup_email = findViewById(R.id.signup_email);
+          ed_signup_password = findViewById(R.id.signup_pass);
 
         btnSignin = findViewById(R.id.b_signin);
         btn_goto_signup = findViewById(R.id.b_signup);
@@ -96,15 +122,15 @@ public class MainActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(this);
 
 
-        loginlayout.setVisibility(View.VISIBLE);
-        signuplayout.setVisibility(View.INVISIBLE);
+        m_card_view=findViewById(R.id.card_view);
 
-        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        setlayouts(layout_detect);
+
+        validityChecker = new ValidityChecker(til_login_email, til_login_password, til_signup_email, til_signup_password, getApplicationContext());
 
 
-        validityChecker = new ValidityChecker(ed_login_email, ed_login_password, ed_signup_email, ed_signup_password,
-                til_login_email, til_login_password, til_signup_email, til_signup_password, getApplicationContext());
+        TextView textView = (TextView) btn_google_signin.getChildAt(0);
+        textView.setText("Google");
 
         m_google_signin = new Google_signin(getApplicationContext(), this);
         m_fb_signin = new Facebook_signin(getApplicationContext(), this);
@@ -144,16 +170,17 @@ public class MainActivity extends AppCompatActivity {
         btn_goto_signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                loginlayout.setVisibility(View.INVISIBLE);
-                signuplayout.setVisibility(View.VISIBLE);
+
+                 setlayouts(1);
             }
         });
 
         btn_goto_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                signuplayout.setVisibility(View.INVISIBLE);
-                loginlayout.setVisibility(View.VISIBLE);
+
+                setlayouts(0);
+
             }
         });
 
@@ -164,7 +191,7 @@ public class MainActivity extends AppCompatActivity {
                 final String login_val_email = til_login_email.getEditText().getText().toString();
                 final String login_val_pass = til_login_password.getEditText().getText().toString();
 
-                if (!validityChecker.check_details(login_val_email, login_val_pass, loginlayout)) {
+                if (!validityChecker.check_details(login_val_email, login_val_pass, 0)) {
                     progressDialog.setMessage("Loggin in...");
                     progressDialog.show();
                     m_email_signin.signin(login_val_email, login_val_pass);
@@ -183,7 +210,7 @@ public class MainActivity extends AppCompatActivity {
                 final String signup_val_email = til_signup_email.getEditText().getText().toString();
                 final String signup_val_pass = til_signup_password.getEditText().getText().toString();
 
-                if (!validityChecker.check_details(signup_val_email, signup_val_pass, signuplayout)) {
+                if (!validityChecker.check_details(signup_val_email, signup_val_pass, 1)) {
                     progressDialog.setMessage("Registering user...");
                     progressDialog.show();
                     m_email_signin.signup_user(signup_val_email, signup_val_pass);
@@ -211,6 +238,8 @@ public class MainActivity extends AppCompatActivity {
             public void onSuccess(LoginResult loginResult) {
                 Log.e(TAG, "facebook:onSuccess:" + loginResult);
                 m_fb_signin.handleFacebookAccessToken(loginResult.getAccessToken());
+                startActivity(new Intent(MainActivity.this,Sucess.class));
+
             }
 
             @Override
@@ -258,6 +287,38 @@ public class MainActivity extends AppCompatActivity {
 
                 Log.w(TAG, "Google sign in failed", e);
             }
+        }
+    }
+
+    public void setlayouts(int layout_detect)
+    {
+
+        if(layout_detect==0)
+        {
+            login_heading_layout.setVisibility(View.VISIBLE);
+            login_bottom_layout.setVisibility(View.VISIBLE);
+            ed_logins_layout.setVisibility(View.VISIBLE);
+            signup_here_layout.setVisibility(View.VISIBLE);
+
+            signup_heading_layout.setVisibility(View.INVISIBLE);
+            signup_bottom_layout.setVisibility(View.INVISIBLE);
+            ed_signups_layout.setVisibility(View.INVISIBLE);
+
+
+        }
+
+        else
+        {
+
+            signup_heading_layout.setVisibility(View.VISIBLE);
+            signup_bottom_layout.setVisibility(View.VISIBLE);
+            ed_signups_layout.setVisibility(View.VISIBLE);
+
+
+            login_heading_layout.setVisibility(View.INVISIBLE);
+            login_bottom_layout.setVisibility(View.INVISIBLE);
+            ed_logins_layout.setVisibility(View.INVISIBLE);
+            signup_here_layout.setVisibility(View.INVISIBLE);
         }
     }
 }

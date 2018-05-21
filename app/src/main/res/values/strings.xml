@@ -1,11 +1,11 @@
 <resources>
     <string name="app_name">DemoApp</string>
-    <string name="signin">Sign In</string>
+    <string name="signin">Login</string>
     <string name="signout">Sign Out</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="title_activity_sucess">Sucess</string>
-    <string name="sign_up">Need an account? Sign up here.</string>
+    <string name="sign_up">Signup Now</string>
     <string name="signup_det">Sign up</string>
     <string name="sign_in_page">Already have an account? Sign in</string>
     <string name="regex_error">Please enter a valid email address</string>
@@ -22,4 +22,11 @@
     <string name="code_verify">Verify Code</string>
     <string name="tag_line">Get Personalized experience and Travel Offers</string>
     <string name="heading_login">Login Now!</string>
+    <string name="new_signin">New to MakeMy Trip ?</string>
+    <string name="heading_signup">Signup Now!</string>
+    <string name="tag_line_signup">Save big on exclusive offers! Login to claim you bonus money reward in wallet.</string>
+    <string name="hint_password_min6">Password (minimum 6 characters)</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="referrral_code">Referral Code(Optional)</string>
 </resources>

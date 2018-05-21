@@ -16,20 +16,13 @@ import android.widget.LinearLayout;
 public class ValidityChecker {
     private Context context;
     private TextInputLayout til_login_email,til_login_pass,til_signup_email,til_signup_pass;
-    private TextInputEditText ed_login_email,ed_login_pass,ed_signup_email,ed_signup_pass;
 
     private static int error_email=0,error_pass=0;
 
-    ValidityChecker(TextInputEditText ed_l_email, TextInputEditText ed_l_pass,
-                    TextInputEditText ed_s_email, TextInputEditText ed_s_pass,
-                    TextInputLayout til_l_email,TextInputLayout til_l_pass,
+    ValidityChecker(TextInputLayout til_l_email,TextInputLayout til_l_pass,
                     TextInputLayout til_s_email, TextInputLayout til_s_pass,
                     Context c)
     {
-        this.ed_login_email=ed_l_email;
-        this.ed_login_pass=ed_l_pass;
-        this.ed_signup_email=ed_s_email;
-        this.ed_signup_pass=ed_s_pass;
 
         this.til_login_email=til_l_email;
         this.til_login_pass=til_l_pass;
@@ -40,35 +33,35 @@ public class ValidityChecker {
 
     }
 
-    public boolean check_details(String val_email,String val_pass,LinearLayout layout)
+    public boolean check_details(String val_email,String val_pass, int layout_detect)
     {
 
         if(TextUtils.isEmpty(val_email))
         {
-            if(layout.getId()==R.id.login_layout)
+            if(layout_detect==0)
             {
                 til_login_email.setError(context.getResources().getString(R.string.empty_string_error));
-                ed_login_email.getBackground().setColorFilter(context.getResources().getColor(R.color.Red), PorterDuff.Mode.SRC_ATOP);
+                til_login_email.getEditText().getBackground().setColorFilter(context.getResources().getColor(R.color.Red), PorterDuff.Mode.SRC_ATOP);
             }
-            else if(layout.getId()==R.id.signup_layout)
+            else if(layout_detect==1)
             {
                 til_signup_email.setError(context.getResources().getString(R.string.empty_string_error));
-                ed_signup_email.getBackground().setColorFilter(context.getResources().getColor(R.color.Red), PorterDuff.Mode.SRC_ATOP);
+                til_signup_email.getEditText().getBackground().setColorFilter(context.getResources().getColor(R.color.Red), PorterDuff.Mode.SRC_ATOP);
             }
 
             error_email=1;
         }
         else if(!isValidEmail(val_email))
         {
-            if(layout.getId()==R.id.login_layout)
+            if(layout_detect==0)
             {
                 til_login_email.setError(context.getResources().getString(R.string.regex_error));
-                ed_login_email.getBackground().setColorFilter(context.getResources().getColor(R.color.Red), PorterDuff.Mode.SRC_ATOP);
+                til_login_email.getEditText().getBackground().setColorFilter(context.getResources().getColor(R.color.Red), PorterDuff.Mode.SRC_ATOP);
             }
-            else if(layout.getId()==R.id.signup_layout)
+            else if(layout_detect==1)
             {
                 til_signup_email.setError(context.getResources().getString(R.string.regex_error));
-                ed_signup_email.getBackground().setColorFilter(context.getResources().getColor(R.color.Red), PorterDuff.Mode.SRC_ATOP);
+                til_signup_email.getEditText().getBackground().setColorFilter(context.getResources().getColor(R.color.Red), PorterDuff.Mode.SRC_ATOP);
             }
 
             error_email=1;
@@ -77,24 +70,24 @@ public class ValidityChecker {
 
             error_email = 0;
             til_login_email.setError(null);
-            ed_login_email.getBackground().clearColorFilter();
+            til_login_email.getEditText().getBackground().clearColorFilter();
             til_signup_email.setError(null);
-            ed_signup_email.getBackground().clearColorFilter();
+            til_signup_email.getEditText().getBackground().clearColorFilter();
 
         }
 
 
         if(TextUtils.isEmpty(val_pass))
         {
-            if(layout.getId()==R.id.login_layout) {
+            if(layout_detect==0) {
 
                 til_login_pass.setError(context.getResources().getString(R.string.empty_string_error));
-                ed_login_pass.getBackground().setColorFilter(context.getResources().getColor(R.color.Red), PorterDuff.Mode.SRC_ATOP);
+                til_login_pass.getEditText().getBackground().setColorFilter(context.getResources().getColor(R.color.Red), PorterDuff.Mode.SRC_ATOP);
             }
-            else if(layout.getId()==R.id.signup_layout)
+            else if(layout_detect==1)
             {
                 til_signup_pass.setError(context.getResources().getString(R.string.empty_string_error));
-                ed_signup_pass.getBackground().setColorFilter(context.getResources().getColor(R.color.Red), PorterDuff.Mode.SRC_ATOP);
+                til_signup_pass.getEditText().getBackground().setColorFilter(context.getResources().getColor(R.color.Red), PorterDuff.Mode.SRC_ATOP);
 
             }
 
@@ -104,12 +97,17 @@ public class ValidityChecker {
 
             error_pass=0;
             til_login_pass.setError(null);
-            ed_login_pass.getBackground().clearColorFilter();
+            til_login_pass.getEditText().getBackground().clearColorFilter();
             til_signup_pass.setError(null);
-            ed_signup_pass.getBackground().clearColorFilter();
-
+            til_signup_pass.getEditText().getBackground().clearColorFilter();
 
         }
+
+
+//        if(layout_detect==1)
+//        {
+//            if()
+//        }
 
         if(error_email==1 || error_pass==1) return true;
         else return false;
@@ -118,5 +116,7 @@ public class ValidityChecker {
     public static boolean isValidEmail(CharSequence target) {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
     }
+
+
 
 }
