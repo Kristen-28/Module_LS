@@ -9,6 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -96,6 +98,10 @@ public class MainActivity extends AppCompatActivity {
 
         loginlayout.setVisibility(View.VISIBLE);
         signuplayout.setVisibility(View.INVISIBLE);
+
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
 
         validityChecker = new ValidityChecker(ed_login_email, ed_login_password, ed_signup_email, ed_signup_password,
                 til_login_email, til_login_password, til_signup_email, til_signup_password, getApplicationContext());
@@ -228,6 +234,7 @@ public class MainActivity extends AppCompatActivity {
         if (currentUser != null) {
             Log.e(TAG, currentUser.getUid());
             mAuth.addAuthStateListener(mauthListener);
+            finish();
         }
     }
 
@@ -243,11 +250,12 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == GOOGLE_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
-                // Google Sign In was successful, authenticate with Firebase
+
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 m_google_signin.firebaseAuthWithGoogle(account);
+
             } catch (ApiException e) {
-                // Google Sign In failed, update UI appropriately
+
                 Log.w(TAG, "Google sign in failed", e);
             }
         }

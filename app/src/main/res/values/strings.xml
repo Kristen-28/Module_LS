@@ -11,6 +11,15 @@
     <string name="regex_error">Please enter a valid email address</string>
     <string name="empty_string_error">This field is empty</string>
 
+    <string name="enter_phoneno"> Enter Phone Number</string>
+    <string name="enter_otp">OTP</string>
+    <string name="send_code">Send Code</string>
+    <string name="india_code">+91</string>
+    <string name="some_error">There was some error!</string>
+
     <string name="facebook_app_id">1921547267863638</string>
     <string name="fb_login_protocol_scheme">fb1921547267863638</string>
+    <string name="code_verify">Verify Code</string>
+    <string name="tag_line">Get Personalized experience and Travel Offers</string>
+    <string name="heading_login">Login Now!</string>
 </resources>
