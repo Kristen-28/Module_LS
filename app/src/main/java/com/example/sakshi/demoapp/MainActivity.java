@@ -192,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
                 final String login_val_pass = til_login_password.getEditText().getText().toString();
 
                 if (!validityChecker.check_details(login_val_email, login_val_pass, 0)) {
-                    progressDialog.setMessage("Loggin in...");
+                    progressDialog.setMessage("Loading...");
                     progressDialog.show();
                     m_email_signin.signin(login_val_email, login_val_pass);
                 } else {
@@ -222,7 +222,7 @@ public class MainActivity extends AppCompatActivity {
         btn_google_signin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                progressDialog.setMessage("Logging in..");
+                progressDialog.setMessage("Loading..");
                 progressDialog.show();
 
                 Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(google_api_client);
@@ -238,8 +238,8 @@ public class MainActivity extends AppCompatActivity {
             public void onSuccess(LoginResult loginResult) {
                 Log.e(TAG, "facebook:onSuccess:" + loginResult);
                 m_fb_signin.handleFacebookAccessToken(loginResult.getAccessToken());
-                startActivity(new Intent(MainActivity.this,Sucess.class));
-
+                progressDialog.setMessage("Logging in...");
+                progressDialog.show();
             }
 
             @Override
@@ -300,9 +300,9 @@ public class MainActivity extends AppCompatActivity {
             ed_logins_layout.setVisibility(View.VISIBLE);
             signup_here_layout.setVisibility(View.VISIBLE);
 
-            signup_heading_layout.setVisibility(View.INVISIBLE);
-            signup_bottom_layout.setVisibility(View.INVISIBLE);
-            ed_signups_layout.setVisibility(View.INVISIBLE);
+            signup_heading_layout.setVisibility(View.GONE);
+            signup_bottom_layout.setVisibility(View.GONE);
+            ed_signups_layout.setVisibility(View.GONE);
 
 
         }
@@ -315,10 +315,10 @@ public class MainActivity extends AppCompatActivity {
             ed_signups_layout.setVisibility(View.VISIBLE);
 
 
-            login_heading_layout.setVisibility(View.INVISIBLE);
-            login_bottom_layout.setVisibility(View.INVISIBLE);
-            ed_logins_layout.setVisibility(View.INVISIBLE);
-            signup_here_layout.setVisibility(View.INVISIBLE);
+            login_heading_layout.setVisibility(View.GONE);
+            login_bottom_layout.setVisibility(View.GONE);
+            ed_logins_layout.setVisibility(View.GONE);
+            signup_here_layout.setVisibility(View.GONE);
         }
     }
 }

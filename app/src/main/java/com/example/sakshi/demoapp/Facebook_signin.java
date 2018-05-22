@@ -51,10 +51,11 @@ public class Facebook_signin {
                             Toast.makeText(context, "Successfully logged in via facebook!", Toast.LENGTH_SHORT).show();
                             FirebaseUser user = mAuth.getCurrentUser();
 
-//
-//                            Intent intent=new Intent(context,Sucess.class);
-//                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                            context.startActivity(intent);
+
+                            Intent intent=new Intent(context,Sucess.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(intent);
+
                         } else {
 
                             Log.e(TAG, "signInWithCredential:failure", task.getException());
