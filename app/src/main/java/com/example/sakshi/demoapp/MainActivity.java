@@ -1,23 +1,17 @@
 package com.example.sakshi.demoapp;
 
-import android.app.ActionBar;
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,9 +43,8 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener mauthListener;
 
     private LinearLayout ed_signups_layout,ed_logins_layout,signup_bottom_layout,login_bottom_layout, login_heading_layout, signup_heading_layout,signup_here_layout;
-    private TextInputEditText ed_login_email, ed_login_password, ed_signup_email, ed_signup_password;
     private TextInputLayout til_login_email, til_login_password, til_signup_email, til_signup_password;
-    private Button btnSignin, btn_signup, btn_goto_login;
+    private Button btnSignin, btn_signup, btn_goto_login,btn_phone_auth;
 
     private SignInButton btn_google_signin;
     private LoginButton btn_fb_signin;
@@ -65,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Google_signin m_google_signin;
     private Facebook_signin m_fb_signin;
-    private Email_signin m_email_signin;
+    private Email_signin_signup m_email_signinSignup;
     private TextView btn_goto_signup;
 
     private CardView m_card_view;
@@ -107,15 +100,11 @@ public class MainActivity extends AppCompatActivity {
         til_signup_email = findViewById(R.id.s_wrapperemail);
         til_signup_password = findViewById(R.id.s_wrapperpassword);
 
-          ed_login_email = findViewById(R.id.ed_email);
-          ed_login_password = findViewById(R.id.ed_password);
-          ed_signup_email = findViewById(R.id.signup_email);
-          ed_signup_password = findViewById(R.id.signup_pass);
-
         btnSignin = findViewById(R.id.b_signin);
         btn_goto_signup = findViewById(R.id.b_signup);
         btn_signup = findViewById(R.id.signup_details);
         btn_goto_login = findViewById(R.id.back_Login);
+        btn_phone_auth=findViewById(R.id.btn_phone_auth);
 
         btn_google_signin = findViewById(R.id.google_signin_btn);
         btn_fb_signin = findViewById(R.id.fb_login_btn);
@@ -134,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
 
         m_google_signin = new Google_signin(getApplicationContext(), this);
         m_fb_signin = new Facebook_signin(getApplicationContext(), this);
-        m_email_signin = new Email_signin(getApplicationContext(), this);
+        m_email_signinSignup = new Email_signin_signup(getApplicationContext(), this);
 
         mAuth = FirebaseAuth.getInstance();
         mauthListener = new FirebaseAuth.AuthStateListener() {
@@ -194,7 +183,8 @@ public class MainActivity extends AppCompatActivity {
                 if (!validityChecker.check_details(login_val_email, login_val_pass, 0)) {
                     progressDialog.setMessage("Loading...");
                     progressDialog.show();
-                    m_email_signin.signin(login_val_email, login_val_pass);
+                    m_email_signinSignup.signin(login_val_email, login_val_pass);
+
                 } else {
                     Toast.makeText(MainActivity.this, "Please correct the fields in red and try again.", Toast.LENGTH_SHORT).show();
                 }
@@ -213,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
                 if (!validityChecker.check_details(signup_val_email, signup_val_pass, 1)) {
                     progressDialog.setMessage("Registering user...");
                     progressDialog.show();
-                    m_email_signin.signup_user(signup_val_email, signup_val_pass);
+                    m_email_signinSignup.signup_user(signup_val_email, signup_val_pass);
                 } else
                     Toast.makeText(MainActivity.this, "Please correct the fields in red and try again. ", Toast.LENGTH_SHORT).show();
             }
@@ -252,7 +242,16 @@ public class MainActivity extends AppCompatActivity {
                 Log.e(TAG, "facebook:onError", error);
             }
         });
+
+
+        btn_phone_auth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this,PhoneAuthActivity.class));
+            }
+        });
     }
+
 
 
     @Override
