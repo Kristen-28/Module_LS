@@ -9,10 +9,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class Sucess extends AppCompatActivity {
+public class SuccessActivity extends AppCompatActivity {
 
     private Button btn_signout;
     private TextView userid;
@@ -44,8 +45,12 @@ public class Sucess extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 mAuth.signOut();
-                Toast.makeText(Sucess.this, "Signing out..", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(Sucess.this,MainActivity.class));
+                Toast.makeText(SuccessActivity.this, "Signing out..", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(SuccessActivity.this,MainActivity.class));
+
+                if(com.facebook.Profile.getCurrentProfile() != null)
+                LoginManager.getInstance().logOut();
+
             }
         });
     }

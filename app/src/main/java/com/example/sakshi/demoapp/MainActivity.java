@@ -56,13 +56,12 @@ public class MainActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private ValidityChecker validityChecker;
 
-    private Google_signin m_google_signin;
-    private Facebook_signin m_fb_signin;
-    private Email_signin_signup m_email_signinSignup;
+    private GoogleSignin m_google_signin;
+    private FacebookSignin m_fb_signin;
+    private EmailSigninSignup m_email_signinSignup;
     private TextView btn_goto_signup;
 
     private CardView m_card_view;
-
     private int layout_detect=0;   //0 for login,1 for signup
 
     @Override
@@ -72,9 +71,8 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        android.support.v7.app.ActionBar actionBar = getSupportActionBar(); //or getSupportActionBar();
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
-
 
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
@@ -85,15 +83,11 @@ public class MainActivity extends AppCompatActivity {
 
         login_heading_layout=findViewById(R.id.login_heading);
         signup_heading_layout=findViewById(R.id.signup_heading);
-
         login_bottom_layout=findViewById(R.id.login_bottom_referral_layout);
         signup_bottom_layout=findViewById(R.id.signup_bottom_layout);
-
         ed_logins_layout=findViewById(R.id.edittext_logins);
         ed_signups_layout=findViewById(R.id.edittext_signups);
-
         signup_here_layout=findViewById(R.id.signup_here_layout);
-
 
         til_login_email = findViewById(R.id.wrapperemail);
         til_login_password = findViewById(R.id.wrapperpassword);
@@ -110,20 +104,17 @@ public class MainActivity extends AppCompatActivity {
         btn_fb_signin = findViewById(R.id.fb_login_btn);
         progressDialog = new ProgressDialog(this);
 
-
         m_card_view=findViewById(R.id.card_view);
 
         setlayouts(layout_detect);
 
-        validityChecker = new ValidityChecker(til_login_email, til_login_password, til_signup_email, til_signup_password, getApplicationContext());
-
-
         TextView textView = (TextView) btn_google_signin.getChildAt(0);
-        textView.setText("Google");
+        textView.setText("Google");                        //setting text google to google button
 
-        m_google_signin = new Google_signin(getApplicationContext(), this);
-        m_fb_signin = new Facebook_signin(getApplicationContext(), this);
-        m_email_signinSignup = new Email_signin_signup(getApplicationContext(), this);
+        validityChecker = new ValidityChecker(til_login_email, til_login_password, til_signup_email, til_signup_password, getApplicationContext());
+        m_google_signin = new GoogleSignin(getApplicationContext(), this);
+        m_fb_signin = new FacebookSignin(getApplicationContext(), this);
+        m_email_signinSignup = new EmailSigninSignup(getApplicationContext(), this);
 
         mAuth = FirebaseAuth.getInstance();
         mauthListener = new FirebaseAuth.AuthStateListener() {
@@ -133,13 +124,13 @@ public class MainActivity extends AppCompatActivity {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     Log.e(TAG, "User Signed in");
-                    startActivity(new Intent(MainActivity.this, Sucess.class));
+                    progressDialog.dismiss();
+                    startActivity(new Intent(MainActivity.this, SuccessActivity.class));
                 } else {
                     Log.e(TAG, "User Signed out");
                 }
             }
         };
-
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -185,13 +176,16 @@ public class MainActivity extends AppCompatActivity {
                     progressDialog.show();
                     m_email_signinSignup.signin(login_val_email, login_val_pass);
 
+                    til_login_email.getEditText().setText("");
+                    til_login_password.getEditText().setText("");
+
                 } else {
                     Toast.makeText(MainActivity.this, "Please correct the fields in red and try again.", Toast.LENGTH_SHORT).show();
                 }
 
             }
-        });
 
+        });
 
         btn_signup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -204,6 +198,7 @@ public class MainActivity extends AppCompatActivity {
                     progressDialog.setMessage("Registering user...");
                     progressDialog.show();
                     m_email_signinSignup.signup_user(signup_val_email, signup_val_pass);
+
                 } else
                     Toast.makeText(MainActivity.this, "Please correct the fields in red and try again. ", Toast.LENGTH_SHORT).show();
             }
@@ -217,7 +212,6 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(google_api_client);
                 startActivityForResult(signInIntent, GOOGLE_SIGN_IN);
-
             }
         });
 
@@ -247,12 +241,11 @@ public class MainActivity extends AppCompatActivity {
         btn_phone_auth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                progressDialog.dismiss();
                 startActivity(new Intent(MainActivity.this,PhoneAuthActivity.class));
             }
         });
     }
-
-
 
     @Override
     public void onStart() {
@@ -262,19 +255,17 @@ public class MainActivity extends AppCompatActivity {
         if (currentUser != null) {
             Log.e(TAG, currentUser.getUid());
             mAuth.addAuthStateListener(mauthListener);
+
             finish();
         }
     }
-
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
 
-        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
-
+        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...)
         if (requestCode == GOOGLE_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
@@ -298,22 +289,16 @@ public class MainActivity extends AppCompatActivity {
             login_bottom_layout.setVisibility(View.VISIBLE);
             ed_logins_layout.setVisibility(View.VISIBLE);
             signup_here_layout.setVisibility(View.VISIBLE);
-
             signup_heading_layout.setVisibility(View.GONE);
             signup_bottom_layout.setVisibility(View.GONE);
             ed_signups_layout.setVisibility(View.GONE);
-
-
         }
 
         else
         {
-
             signup_heading_layout.setVisibility(View.VISIBLE);
             signup_bottom_layout.setVisibility(View.VISIBLE);
             ed_signups_layout.setVisibility(View.VISIBLE);
-
-
             login_heading_layout.setVisibility(View.GONE);
             login_bottom_layout.setVisibility(View.GONE);
             ed_logins_layout.setVisibility(View.GONE);

@@ -1,12 +1,9 @@
 package com.example.sakshi.demoapp;
 
 import android.content.Intent;
-import android.nfc.Tag;
 import android.support.annotation.NonNull;
-import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.telecom.PhoneAccountHandle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -14,7 +11,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -26,9 +22,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 
-import org.w3c.dom.Text;
-
-import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.TimeUnit;
 
 public class PhoneAuthActivity extends AppCompatActivity {
@@ -150,7 +143,7 @@ public class PhoneAuthActivity extends AppCompatActivity {
 
                             Log.e(TAG, "signInWithCredential:success");
                             FirebaseUser user = task.getResult().getUser();
-                            startActivity(new Intent(PhoneAuthActivity.this, Sucess.class));
+                            startActivity(new Intent(PhoneAuthActivity.this, SuccessActivity.class));
                             finish();
 
                         } else {

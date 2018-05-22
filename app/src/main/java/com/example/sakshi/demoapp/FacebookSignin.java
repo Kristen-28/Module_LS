@@ -21,13 +21,13 @@ import static android.content.ContentValues.TAG;
  * Created by sakshi on 20/5/18.
  */
 
-public class Facebook_signin {
+public class FacebookSignin {
 
     private FirebaseAuth mAuth;
     private MainActivity activity;
     private Context context;
 
-    Facebook_signin(Context context, MainActivity activity)
+    FacebookSignin(Context context, MainActivity activity)
     {
 
         this.context=context;
@@ -52,7 +52,7 @@ public class Facebook_signin {
                             FirebaseUser user = mAuth.getCurrentUser();
 
 
-                            Intent intent=new Intent(context,Sucess.class);
+                            Intent intent=new Intent(context,SuccessActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             context.startActivity(intent);
 

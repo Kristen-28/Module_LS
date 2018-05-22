@@ -18,14 +18,14 @@ import com.google.firebase.auth.GoogleAuthProvider;
  * Created by sakshi on 20/5/18.
  */
 
-public class Google_signin {
+public class GoogleSignin {
    private ProgressDialog progressDialog;
    private static final String TAG="Google Sign in";
    private FirebaseAuth mAuth;
    private Context context;
    private MainActivity activity;
 
-   Google_signin(Context context, MainActivity activity){
+   GoogleSignin(Context context, MainActivity activity){
        this.context=context;
        mAuth=FirebaseAuth.getInstance();
        this.activity = activity;
@@ -47,7 +47,7 @@ public class Google_signin {
                         if (task.isSuccessful()) {
                             Log.d(TAG, "signInWithCredential:success");
                             progressDialog.hide();
-                            Intent intent = new Intent(context,Sucess.class);
+                            Intent intent = new Intent(context,SuccessActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
                             context.startActivity(intent);

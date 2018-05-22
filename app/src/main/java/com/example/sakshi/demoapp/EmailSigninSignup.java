@@ -8,6 +8,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -16,7 +17,7 @@ import com.google.firebase.auth.FirebaseAuth;
  * Created by sakshi on 20/5/18.
  */
 
-public class Email_signin_signup {
+public class EmailSigninSignup {
 
     private FirebaseAuth mAuth;
     private MainActivity activity;
@@ -25,13 +26,11 @@ public class Email_signin_signup {
     private static final String TAG="Email Sign in";
 
 
-    Email_signin_signup(Context context, MainActivity activity)
+    EmailSigninSignup(Context context, MainActivity activity)
     {
         this.context=context;
         this.activity=activity;
-
         mAuth=FirebaseAuth.getInstance();
-
     }
     public void signin(String email,String password)
     {
@@ -54,6 +53,7 @@ public class Email_signin_signup {
 
                     }
                 });
+
     }
 
 
@@ -66,11 +66,17 @@ public class Email_signin_signup {
 
                 if(task.isSuccessful())
                 {
-                    Intent intent=new Intent(context,Sucess.class);
+                    Intent intent=new Intent(context,SuccessActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
                     Log.d(TAG,"User signed up sucessfully");
                 }
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 

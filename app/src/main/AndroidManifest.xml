@@ -20,7 +20,7 @@
 
         </activity>
         <activity
-            android:name=".Sucess"
+            android:name=".SuccessActivity"
             android:label="@string/title_activity_sucess"
             android:theme="@style/AppTheme.NoActionBar" />
 
