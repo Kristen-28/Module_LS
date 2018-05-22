@@ -12,6 +12,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 
 /**
  * Created by sakshi on 20/5/18.
@@ -32,30 +33,29 @@ public class EmailSigninSignup {
         this.activity=activity;
         mAuth=FirebaseAuth.getInstance();
     }
-    public void signin(String email,String password)
-    {
 
+    public void signin(String email,String password) {
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
+
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
 
                             Log.d(TAG, "signInWithEmail:success");
+                            Intent intent=new Intent(context,SuccessActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             Toast.makeText(context, "Login Sucessful!", Toast.LENGTH_SHORT).show();
+                            context.startActivity(intent);
 
                         } else {
 
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
-                            Toast.makeText(context, "Oops something went wrong. Please retry!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Oops something went wrong", Toast.LENGTH_SHORT).show();
                         }
-
-
                     }
                 });
-
     }
-
 
 
     public void signup_user(String val_email,String val_pass)

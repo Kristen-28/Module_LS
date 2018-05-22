@@ -136,6 +136,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/email"
+                        android:singleLine="true"
                         android:paddingLeft="4dp"
                         android:textSize="14sp" />
 
@@ -155,6 +156,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/password"
+                        android:singleLine="true"
                         android:inputType="textPassword"
                         android:paddingLeft="4dp"
                         android:textSize="14sp" />
@@ -207,6 +209,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="35dp"
                         android:textSize="14sp"
+                        android:singleLine="true"
                         android:hint="@string/first_name"
                         android:inputType="text" />
 
@@ -223,6 +226,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="14sp"
+                        android:singleLine="true"
                         android:hint="@string/last_name"
                         android:inputType="text" />
 
@@ -241,6 +245,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="14sp"
+                        android:singleLine="true"
                         android:hint="@string/email" />
 
                 </android.support.design.widget.TextInputLayout>
@@ -256,6 +261,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="14sp"
+                        android:singleLine="true"
                         android:hint="@string/hint_password_min6" />
 
                 </android.support.design.widget.TextInputLayout>
@@ -272,6 +278,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="14sp"
+                        android:singleLine="true"
                         android:hint="@string/referrral_code"
                         android:inputType="text" />
 

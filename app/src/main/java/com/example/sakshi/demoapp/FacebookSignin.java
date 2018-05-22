@@ -27,13 +27,11 @@ public class FacebookSignin {
     private MainActivity activity;
     private Context context;
 
-    FacebookSignin(Context context, MainActivity activity)
-    {
+    FacebookSignin(Context context, MainActivity activity) {
 
-        this.context=context;
-        this.activity=activity;
-
-        mAuth=FirebaseAuth.getInstance();
+        this.context = context;
+        this.activity = activity;
+        mAuth = FirebaseAuth.getInstance();
     }
 
     public void handleFacebookAccessToken(AccessToken token) {
@@ -51,8 +49,7 @@ public class FacebookSignin {
                             Toast.makeText(context, "Successfully logged in via facebook!", Toast.LENGTH_SHORT).show();
                             FirebaseUser user = mAuth.getCurrentUser();
 
-
-                            Intent intent=new Intent(context,SuccessActivity.class);
+                            Intent intent = new Intent(context, SuccessActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             context.startActivity(intent);
 
@@ -61,8 +58,6 @@ public class FacebookSignin {
                             Log.e(TAG, "signInWithCredential:failure", task.getException());
                             Toast.makeText(context, "Authentication failed.", Toast.LENGTH_SHORT).show();
                         }
-
-
                     }
                 });
     }

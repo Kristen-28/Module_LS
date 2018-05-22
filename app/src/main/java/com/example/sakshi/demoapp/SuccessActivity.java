@@ -57,7 +57,7 @@ public class SuccessActivity extends AppCompatActivity {
 
     @Override
     protected void onStart() {
-        FirebaseUser currentUser = mAuth.getCurrentUser();
+
         mAuth.addAuthStateListener(authStateListener);
         super.onStart();
     }

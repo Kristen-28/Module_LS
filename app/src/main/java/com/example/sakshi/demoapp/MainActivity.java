@@ -42,9 +42,9 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mauthListener;
 
-    private LinearLayout ed_signups_layout,ed_logins_layout,signup_bottom_layout,login_bottom_layout, login_heading_layout, signup_heading_layout,signup_here_layout;
+    private LinearLayout ed_signups_layout, ed_logins_layout, signup_bottom_layout, login_bottom_layout, login_heading_layout, signup_heading_layout, signup_here_layout;
     private TextInputLayout til_login_email, til_login_password, til_signup_email, til_signup_password;
-    private Button btnSignin, btn_signup, btn_goto_login,btn_phone_auth;
+    private Button btnSignin, btn_signup, btn_goto_login, btn_phone_auth;
 
     private SignInButton btn_google_signin;
     private LoginButton btn_fb_signin;
@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView btn_goto_signup;
 
     private CardView m_card_view;
-    private int layout_detect=0;   //0 for login,1 for signup
+    private int layout_detect = 0;   //0 for login,1 for signup
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,13 +81,13 @@ public class MainActivity extends AppCompatActivity {
             FacebookSdk.addLoggingBehavior(LoggingBehavior.INCLUDE_ACCESS_TOKENS);
         }
 
-        login_heading_layout=findViewById(R.id.login_heading);
-        signup_heading_layout=findViewById(R.id.signup_heading);
-        login_bottom_layout=findViewById(R.id.login_bottom_referral_layout);
-        signup_bottom_layout=findViewById(R.id.signup_bottom_layout);
-        ed_logins_layout=findViewById(R.id.edittext_logins);
-        ed_signups_layout=findViewById(R.id.edittext_signups);
-        signup_here_layout=findViewById(R.id.signup_here_layout);
+        login_heading_layout = findViewById(R.id.login_heading);
+        signup_heading_layout = findViewById(R.id.signup_heading);
+        login_bottom_layout = findViewById(R.id.login_bottom_referral_layout);
+        signup_bottom_layout = findViewById(R.id.signup_bottom_layout);
+        ed_logins_layout = findViewById(R.id.edittext_logins);
+        ed_signups_layout = findViewById(R.id.edittext_signups);
+        signup_here_layout = findViewById(R.id.signup_here_layout);
 
         til_login_email = findViewById(R.id.wrapperemail);
         til_login_password = findViewById(R.id.wrapperpassword);
@@ -98,13 +98,13 @@ public class MainActivity extends AppCompatActivity {
         btn_goto_signup = findViewById(R.id.b_signup);
         btn_signup = findViewById(R.id.signup_details);
         btn_goto_login = findViewById(R.id.back_Login);
-        btn_phone_auth=findViewById(R.id.btn_phone_auth);
+        btn_phone_auth = findViewById(R.id.btn_phone_auth);
 
         btn_google_signin = findViewById(R.id.google_signin_btn);
         btn_fb_signin = findViewById(R.id.fb_login_btn);
         progressDialog = new ProgressDialog(this);
 
-        m_card_view=findViewById(R.id.card_view);
+        m_card_view = findViewById(R.id.card_view);
 
         setlayouts(layout_detect);
 
@@ -151,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                 setlayouts(1);
+                setlayouts(1);
             }
         });
 
@@ -242,7 +242,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 progressDialog.dismiss();
-                startActivity(new Intent(MainActivity.this,PhoneAuthActivity.class));
+                startActivity(new Intent(MainActivity.this, PhoneAuthActivity.class));
             }
         });
     }
@@ -255,7 +255,6 @@ public class MainActivity extends AppCompatActivity {
         if (currentUser != null) {
             Log.e(TAG, currentUser.getUid());
             mAuth.addAuthStateListener(mauthListener);
-
             finish();
         }
     }
@@ -280,11 +279,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void setlayouts(int layout_detect)
-    {
-
-        if(layout_detect==0)
-        {
+    public void setlayouts(int layout_detect) {
+        if (layout_detect == 0) {
             login_heading_layout.setVisibility(View.VISIBLE);
             login_bottom_layout.setVisibility(View.VISIBLE);
             ed_logins_layout.setVisibility(View.VISIBLE);
@@ -292,10 +288,7 @@ public class MainActivity extends AppCompatActivity {
             signup_heading_layout.setVisibility(View.GONE);
             signup_bottom_layout.setVisibility(View.GONE);
             ed_signups_layout.setVisibility(View.GONE);
-        }
-
-        else
-        {
+        } else {
             signup_heading_layout.setVisibility(View.VISIBLE);
             signup_bottom_layout.setVisibility(View.VISIBLE);
             ed_signups_layout.setVisibility(View.VISIBLE);
