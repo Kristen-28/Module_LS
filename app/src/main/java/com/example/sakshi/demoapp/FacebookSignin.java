@@ -56,7 +56,7 @@ public class FacebookSignin {
                         } else {
 
                             Log.e(TAG, "signInWithCredential:failure", task.getException());
-                            Toast.makeText(context, "Authentication failed.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

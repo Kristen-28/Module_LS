@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -37,6 +39,7 @@ public class SuccessActivity extends AppCompatActivity {
                         String x= "Hi user "+ mAuth.getCurrentUser().getUid();
                         userid.setText(x);
                     }
+                    else startActivity(new Intent(SuccessActivity.this,MainActivity.class));
             }
         };
 
@@ -48,8 +51,10 @@ public class SuccessActivity extends AppCompatActivity {
                 Toast.makeText(SuccessActivity.this, "Signing out..", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(SuccessActivity.this,MainActivity.class));
 
-                if(com.facebook.Profile.getCurrentProfile() != null)
-                LoginManager.getInstance().logOut();
+                if(com.facebook.Profile.getCurrentProfile()!=null)
+                {
+                    LoginManager.getInstance().logOut();
+                }
 
             }
         });
@@ -60,5 +65,6 @@ public class SuccessActivity extends AppCompatActivity {
 
         mAuth.addAuthStateListener(authStateListener);
         super.onStart();
+
     }
 }

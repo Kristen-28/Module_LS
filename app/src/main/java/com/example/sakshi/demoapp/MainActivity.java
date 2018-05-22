@@ -216,7 +216,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         callbackManager = CallbackManager.Factory.create();
-        btn_fb_signin.setReadPermissions("email", "public_profile");
         btn_fb_signin.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
